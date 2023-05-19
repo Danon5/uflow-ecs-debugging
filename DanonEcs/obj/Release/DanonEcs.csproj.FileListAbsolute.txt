@@ -1,0 +1,6 @@
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\bin\Release\DanonEcs.dll
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\bin\Release\DanonEcs.pdb
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\obj\Release\DanonEcs.csproj.AssemblyReference.cache
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\obj\Release\DanonEcs.csproj.CoreCompileInputs.cache
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\obj\Release\DanonEcs.dll
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcs\obj\Release\DanonEcs.pdb

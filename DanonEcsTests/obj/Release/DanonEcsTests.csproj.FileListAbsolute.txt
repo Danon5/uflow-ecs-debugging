@@ -1,0 +1,2 @@
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcsTests\obj\Release\DanonEcsTests.csproj.AssemblyReference.cache
+D:\Projects\CSharp\DanonEcsDebugging\DanonEcsTests\obj\Release\DanonEcsTests.csproj.CoreCompileInputs.cache
