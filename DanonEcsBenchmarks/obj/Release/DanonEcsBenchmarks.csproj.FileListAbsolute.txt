@@ -1,3 +1,0 @@
-D:\Projects\CSharp\DanonEcsDebugging\DanonEcsBenchmarks\obj\Release\DanonEcsBenchmarks.csproj.AssemblyReference.cache
-D:\Projects\CSharp\DanonEcsDebugging\DanonEcsBenchmarks\obj\Release\DanonEcsBenchmarks.csproj.SuggestedBindingRedirects.cache
-D:\Projects\CSharp\DanonEcsDebugging\DanonEcsBenchmarks\obj\Release\DanonEcsBenchmarks.csproj.CoreCompileInputs.cache
