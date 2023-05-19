@@ -12,6 +12,7 @@
         <AssemblyName>DanonEcsTests</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,6 +45,12 @@
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Tests.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\DanonEcs\DanonEcs.csproj">
+        <Project>{c14cbbf6-93c4-4f33-829a-73f9859eda6d}</Project>
+        <Name>DanonEcs</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

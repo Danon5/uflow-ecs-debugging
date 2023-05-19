@@ -11,6 +11,7 @@
         <AssemblyName>DanonEcs</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,10 +39,16 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DanonEcsModule\Entity.cs" />
+        <Compile Include="DanonEcsModule\ExternalEngineUtilities.cs" />
+        <Compile Include="DanonEcsModule\Internal\DataStructures\ConcurrentIdStack.cs" />
+        <Compile Include="DanonEcsModule\Internal\DataStructures\EntityInfo.cs" />
+        <Compile Include="DanonEcsModule\Internal\DataStructures\SparseSet.cs" />
+        <Compile Include="DanonEcsModule\Internal\DataStructures\Stash.cs" />
+        <Compile Include="DanonEcsModule\Internal\Extensions\ArrayExtensions.cs" />
+        <Compile Include="DanonEcsModule\Internal\StashManager.cs" />
+        <Compile Include="DanonEcsModule\World.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="DanonEcsModule" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

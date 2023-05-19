@@ -1,0 +1,3 @@
+[submodule "DanonEcs/DanonEcsModule"]
+	path = DanonEcs/DanonEcsModule
+	url = https://github.com/Danon5/DanonEcs
