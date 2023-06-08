@@ -20,7 +20,7 @@ namespace DanonEcsTests {
         public void AddComponentTest() {
             var entity = m_world.CreateEntity();
             entity.Set<ExampleComponent>();
-            Assert.IsTrue(entity.Has<ExampleComponent>());
+            Assert.That(entity.Has<ExampleComponent>());
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace DanonEcsTests {
             entity.Set(new ExampleComponent {
                 someData = 5
             });
-            Assert.AreEqual(entity.Get<ExampleComponent>().someData, 5);
+            Assert.That(entity.Get<ExampleComponent>().someData, Is.EqualTo(5));
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace DanonEcsTests {
             var entity = m_world.CreateEntity();
             entity.Set<ExampleComponent>();
             entity.Remove<ExampleComponent>();
-            Assert.IsFalse(entity.Has<ExampleComponent>());
+            Assert.That(entity.Has<ExampleComponent>(), Is.False);
         }
 
         [Test]
@@ -46,14 +46,14 @@ namespace DanonEcsTests {
             var world2 = World.Create();
 
             var entity1 = world1.CreateEntity();
-            Assert.IsFalse(entity1.Has<ExampleComponent>());
+            Assert.That(entity1.Has<ExampleComponent>(), Is.False);
             entity1.Set<ExampleComponent>();
-            Assert.IsTrue(entity1.Has<ExampleComponent>());
+            Assert.That(entity1.Has<ExampleComponent>(), Is.True);
 
             var entity2 = world2.CreateEntity();
-            Assert.IsFalse(entity2.Has<ExampleComponent>());
+            Assert.That(entity2.Has<ExampleComponent>(), Is.False);
             entity2.Set<ExampleComponent>();
-            Assert.IsTrue(entity2.Has<ExampleComponent>());
+            Assert.That(entity2.Has<ExampleComponent>(), Is.True);
 
             world1.Destroy();
             world2.Destroy();
@@ -75,7 +75,7 @@ namespace DanonEcsTests {
 
             for (var i = 0; i < 5; i++) {
                 var entity = m_world.CreateEntity();
-                Assert.IsFalse(entity.Has<ExampleComponent>());
+                Assert.That(entity.Has<ExampleComponent>(), Is.False);
             }
 
             for (var i = 0; i < 5; i++) {
@@ -97,24 +97,28 @@ namespace DanonEcsTests {
         }
 
         [Test]
-        public void EntityIsValidTest() {
+        public void EntityIsValidTest()
+        {
             var entity = m_world.CreateEntity();
-            Assert.IsTrue(entity.IsAlive());
+            Assert.That(entity.IsAlive(), Is.True);
             entity.Destroy();
-            Assert.IsFalse(entity.IsAlive());
+            Assert.That(entity.IsAlive(), Is.False);
             var entity2 = m_world.CreateEntity();
-            Assert.IsFalse(entity.IsAlive());
-            Assert.IsTrue(entity2.IsAlive());
+            Assert.Multiple(() =>
+            {
+                Assert.That(entity.IsAlive(), Is.False);
+                Assert.That(entity2.IsAlive(), Is.True);
+            });
             entity2.Destroy();
-            Assert.IsFalse(entity2.IsAlive());
+            Assert.That(entity2.IsAlive(), Is.False);
         }
 
         [Test]
         public void WorldIsValidTest() {
             var world = World.Create();
-            Assert.IsTrue(world.IsAlive());
+            Assert.That(world.IsAlive(), Is.True);
             world.Destroy();
-            Assert.IsFalse(world.IsAlive());
+            Assert.That(world.IsAlive(), Is.False);
         }
 
         private struct ExampleComponent {
