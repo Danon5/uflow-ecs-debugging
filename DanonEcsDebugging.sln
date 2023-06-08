@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcsTests", "DanonEcsTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcsBenchmarks", "DanonEcsBenchmarks\DanonEcsBenchmarks.csproj", "{36A376D6-1864-4442-A2BB-4D1113E93C95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcs", "DanonEcs\DanonEcs.csproj", "{C14CBBF6-93C4-4F33-829A-73F9859EDA6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcs", "DanonEcs\DanonEcs.csproj", "{73E9513E-974E-4967-AD4C-01C9D882FE82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{36A376D6-1864-4442-A2BB-4D1113E93C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36A376D6-1864-4442-A2BB-4D1113E93C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36A376D6-1864-4442-A2BB-4D1113E93C95}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C14CBBF6-93C4-4F33-829A-73F9859EDA6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C14CBBF6-93C4-4F33-829A-73F9859EDA6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C14CBBF6-93C4-4F33-829A-73F9859EDA6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C14CBBF6-93C4-4F33-829A-73F9859EDA6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73E9513E-974E-4967-AD4C-01C9D882FE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E9513E-974E-4967-AD4C-01C9D882FE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E9513E-974E-4967-AD4C-01C9D882FE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73E9513E-974E-4967-AD4C-01C9D882FE82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

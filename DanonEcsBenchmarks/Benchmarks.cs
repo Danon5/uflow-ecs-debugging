@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using DanonEcs;
+using DanonUnityFramework.Core.Runtime.Ecs;
 
 namespace DanonEcsBenchmarks {
     [MemoryDiagnoser]

@@ -1,4 +1,4 @@
-﻿using DanonEcs;
+﻿using DanonUnityFramework.Core.Runtime.Ecs;
 using NUnit.Framework;
 
 namespace DanonEcsTests {
@@ -99,22 +99,22 @@ namespace DanonEcsTests {
         [Test]
         public void EntityIsValidTest() {
             var entity = m_world.CreateEntity();
-            Assert.IsTrue(entity.IsValid());
+            Assert.IsTrue(entity.IsAlive());
             entity.Destroy();
-            Assert.IsFalse(entity.IsValid());
+            Assert.IsFalse(entity.IsAlive());
             var entity2 = m_world.CreateEntity();
-            Assert.IsFalse(entity.IsValid());
-            Assert.IsTrue(entity2.IsValid());
+            Assert.IsFalse(entity.IsAlive());
+            Assert.IsTrue(entity2.IsAlive());
             entity2.Destroy();
-            Assert.IsFalse(entity2.IsValid());
+            Assert.IsFalse(entity2.IsAlive());
         }
 
         [Test]
         public void WorldIsValidTest() {
             var world = World.Create();
-            Assert.IsTrue(world.IsValid());
+            Assert.IsTrue(world.IsAlive());
             world.Destroy();
-            Assert.IsFalse(world.IsValid());
+            Assert.IsFalse(world.IsAlive());
         }
 
         private struct ExampleComponent {
