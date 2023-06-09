@@ -121,7 +121,35 @@ namespace DanonEcsTests {
             Assert.That(world.IsAlive(), Is.False);
         }
 
+        [Test]
+        public void WithQueryTest() {
+            var entity1 = m_world.CreateEntity();
+            entity1.Set(new ExampleComponent());
+            var query1 = m_world.CreateQuery().With<ExampleComponent>();
+            Assert.That(query1.GetEntityCount(), Is.EqualTo(1));
+            
+            var entity2 = m_world.CreateEntity();
+            entity2.Set(new ExampleComponent());
+            Assert.That(query1.GetEntityCount(), Is.EqualTo(2));
+
+            var query2 = m_world.CreateQuery().With<OtherComponent>().Without<ExampleComponent>();
+            Assert.That(query2.GetEntityCount(), Is.EqualTo(0));
+
+            var entity3 = m_world.CreateEntity();
+            entity3.Set(new OtherComponent());
+            entity3.Set(new ExampleComponent());
+            Assert.That(query2.GetEntityCount(), Is.EqualTo(0));
+            
+            var entity4 = m_world.CreateEntity();
+            entity4.Set(new OtherComponent());
+            Assert.That(query2.GetEntityCount(), Is.EqualTo(1));
+        }
+
         private struct ExampleComponent {
+            public int someData;
+        }
+
+        private struct OtherComponent {
             public int someData;
         }
     }
