@@ -8,19 +8,14 @@ namespace DanonEcsBenchmarks {
         private const int c_iteration_count = 16000;
         private World m_world;
 
-        [GlobalSetup]
-        public void GlobalSetup() {
+        [IterationSetup]
+        public void IterationSetup() {
             m_world = World.Create();
-        }
-
-        [GlobalCleanup]
-        public void GlobalCleanup() {
-            m_world.Destroy();
         }
 
         [IterationCleanup]
         public void IterationCleanup() {
-            m_world.DestroyAllEntities();
+            m_world.Destroy();
         }
 
         [Benchmark]
@@ -70,11 +65,11 @@ namespace DanonEcsBenchmarks {
         }
 
         private struct HealthComponent {
-            public byte someData;
+            public int someData;
         }
 
         private struct ManaComponent {
-            public byte someData;
+            public int someData;
         }
     }
 
