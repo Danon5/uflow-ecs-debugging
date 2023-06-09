@@ -19,11 +19,26 @@ namespace DanonEcsBenchmarks {
         }
 
         [Benchmark]
-        public void BasicTest() {
+        public void CreateEntitiesWithComponents() {
             for (var i = 0; i < c_iteration_count; i++) {
                 var entity = m_world.CreateEntity();
                 entity.Set<HealthComponent>();
                 entity.Set<ManaComponent>();
+            }
+        }
+
+        [Benchmark]
+        public void QueryEntities() {
+            for (var i = 0; i < c_iteration_count; i++) {
+                var entity = m_world.CreateEntity();
+                entity.Set<HealthComponent>();
+                entity.Set<ManaComponent>();
+            }
+
+            var query = m_world.CreateQuery().With<HealthComponent>();
+            foreach (var entity in query.AsEnumerable()) {
+                ref var health = ref entity.Get<HealthComponent>();
+                health.someData++;
             }
         }
 
