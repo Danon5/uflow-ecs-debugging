@@ -122,7 +122,7 @@ namespace DanonEcsTests {
         }
 
         [Test]
-        public void WithQueryTest() {
+        public void QueryTest() {
             var entity1 = m_world.CreateEntity();
             entity1.Set(new ExampleComponent());
             var query1 = m_world.CreateQuery().With<ExampleComponent>();
