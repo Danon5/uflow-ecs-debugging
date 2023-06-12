@@ -8,6 +8,8 @@
         <IsPackable>false</IsPackable>
 
         <LangVersion>9</LangVersion>
+
+        <RootNamespace>DanonEcsTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -19,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DanonEcs\DanonEcs.csproj" />
+      <ProjectReference Include="..\UFlowEcs\UFlowEcs.csproj" />
     </ItemGroup>
 
 </Project>

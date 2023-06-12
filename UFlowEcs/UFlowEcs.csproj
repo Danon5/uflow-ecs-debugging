@@ -5,6 +5,7 @@
         <Nullable>disable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>9</LangVersion>
+        <RootNamespace>DanonEcs</RootNamespace>
     </PropertyGroup>
 
 </Project>

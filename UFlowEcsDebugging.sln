@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcs", "DanonEcs\DanonEcs.csproj", "{73E9513E-974E-4967-AD4C-01C9D882FE82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UFlowEcs", "UFlowEcs\UFlowEcs.csproj", "{73E9513E-974E-4967-AD4C-01C9D882FE82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcsTests", "DanonEcsTests\DanonEcsTests.csproj", "{567F22F4-698F-4CDC-9466-422FA4702F8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UFlowEcsTests", "UFlowEcsTests\UFlowEcsTests.csproj", "{567F22F4-698F-4CDC-9466-422FA4702F8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanonEcsBenchmarks", "DanonEcsBenchmarks\DanonEcsBenchmarks.csproj", "{CA64A295-2FCD-4C26-8EF5-4B7384BA0549}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UFlowEcsBenchmarks", "UFlowEcsBenchmarks\UFlowEcsBenchmarks.csproj", "{CA64A295-2FCD-4C26-8EF5-4B7384BA0549}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
