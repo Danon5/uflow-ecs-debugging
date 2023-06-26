@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using DanonUnityFramework.Core.Runtime.Ecs;
+using UFlow.Addon.Ecs.Core.Runtime;
 
 namespace DanonEcsBenchmarks {
     [MemoryDiagnoser]
@@ -36,7 +36,7 @@ namespace DanonEcsBenchmarks {
             }
 
             var query = m_world.CreateQuery().With<HealthComponent>();
-            foreach (var entity in query.AsEnumerable()) {
+            foreach (var entity in query.AsSet()) {
                 ref var health = ref entity.Get<HealthComponent>();
                 health.someData++;
             }

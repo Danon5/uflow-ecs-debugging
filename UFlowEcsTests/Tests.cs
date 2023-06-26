@@ -1,5 +1,5 @@
-﻿using DanonUnityFramework.Core.Runtime.Ecs;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using UFlow.Addon.Ecs.Core.Runtime;
 
 namespace DanonEcsTests {
     [TestFixture]
@@ -103,12 +103,14 @@ namespace DanonEcsTests {
             Assert.That(entity.IsAlive(), Is.True);
             entity.Destroy();
             Assert.That(entity.IsAlive(), Is.False);
+            
             var entity2 = m_world.CreateEntity();
             Assert.Multiple(() =>
             {
                 Assert.That(entity.IsAlive(), Is.False);
                 Assert.That(entity2.IsAlive(), Is.True);
             });
+            
             entity2.Destroy();
             Assert.That(entity2.IsAlive(), Is.False);
         }
@@ -125,24 +127,24 @@ namespace DanonEcsTests {
         public void QueryTest() {
             var entity1 = m_world.CreateEntity();
             entity1.Set(new ExampleComponent());
-            var query1 = m_world.CreateQuery().With<ExampleComponent>();
-            Assert.That(query1.GetEntityCount(), Is.EqualTo(1));
+            var query1 = m_world.CreateQuery().With<ExampleComponent>().AsSet();
+            Assert.That(query1.EntityCount, Is.EqualTo(1));
             
             var entity2 = m_world.CreateEntity();
             entity2.Set(new ExampleComponent());
-            Assert.That(query1.GetEntityCount(), Is.EqualTo(2));
+            Assert.That(query1.EntityCount, Is.EqualTo(2));
 
-            var query2 = m_world.CreateQuery().With<OtherComponent>().Without<ExampleComponent>();
-            Assert.That(query2.GetEntityCount(), Is.EqualTo(0));
+            var query2 = m_world.CreateQuery().With<OtherComponent>().Without<ExampleComponent>().AsSet();
+            Assert.That(query2.EntityCount, Is.EqualTo(0));
 
             var entity3 = m_world.CreateEntity();
             entity3.Set(new OtherComponent());
             entity3.Set(new ExampleComponent());
-            Assert.That(query2.GetEntityCount(), Is.EqualTo(0));
+            Assert.That(query2.EntityCount, Is.EqualTo(0));
             
             var entity4 = m_world.CreateEntity();
             entity4.Set(new OtherComponent());
-            Assert.That(query2.GetEntityCount(), Is.EqualTo(1));
+            Assert.That(query2.EntityCount, Is.EqualTo(1));
         }
 
         private struct ExampleComponent {
