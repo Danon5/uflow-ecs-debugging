@@ -35,8 +35,8 @@ namespace DanonEcsBenchmarks {
                 entity.Set<ManaComponent>();
             }
 
-            var query = m_world.CreateQuery().With<HealthComponent>();
-            foreach (var entity in query.AsSet()) {
+            var query = m_world.CreateQuery().With<HealthComponent>().AsSet();
+            foreach (var entity in query) {
                 ref var health = ref entity.Get<HealthComponent>();
                 health.someData++;
             }
