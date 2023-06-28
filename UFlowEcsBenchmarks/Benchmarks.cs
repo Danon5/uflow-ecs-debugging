@@ -1,50 +1,35 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Columns;
-using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using UFlow.Addon.Ecs.Core.Runtime;
 
 namespace DanonEcsBenchmarks {
     [MemoryDiagnoser]
-    [Config(typeof(Config))]
-    [ShortRunJob]
+    [SimpleJob(iterationCount: 25, invocationCount: 5000)]
     public class EcsBenchmarks {
-        private const int c_iteration_count = 1;
+        [Params(128, 256, 512, 1024, 2048, 4096, 8192)]
+        public int Iterations;
         private World m_world;
         private DynamicEntitySet m_query;
 
-        private sealed class Config : ManualConfig {
-            public Config() {
-                AddColumn(new TagColumn("N", _ => c_iteration_count.ToString()));
-            }
-        }
-
         [IterationSetup]
         public void IterationSetup() {
-            m_world = World.Create();
-            /*
-            m_query = m_world.CreateQuery().With<Health>().With<Mana>().AsSet();
-            for (var i = 1; i <= c_iteration_count; i++) {
-                var entity = m_world.CreateEntity();
+            ExternalEngineEvents.clearStaticCachesEvent?.Invoke();
+            m_world = new World();
+            m_query = m_world.Query().With<Health>().With<Mana>().AsSet();
+            for (var i = 1; i <= Iterations; i++) {
+                var entity = m_world.Entity();
                 entity.Set<Health>();
-                if (entity % 3 == 0)
+                if (i % 3 == 0)
                     entity.Set<Mana>();
             }
-            */
         }
 
         [IterationCleanup]
         public void IterationCleanup() {
             m_world.Destroy();
-            ExternalEngineEvents.clearStaticCachesEvent.Invoke();
-        }
-
-        [Benchmark]
-        public void CreateQuery() {
-            var query = m_world.CreateQuery().With<Health>().AsSet();
         }
         
-        //[Benchmark]
+        [Benchmark]
         public void IterateHealthManaQuery() {
             foreach (var entity in m_query) {
                 ref var health = ref entity.Get<Health>();
@@ -53,9 +38,14 @@ namespace DanonEcsBenchmarks {
         }
 
         //[Benchmark]
+        public void CreateQuery() {
+            var query = m_world.Query().With<Health>().AsSet();
+        }
+
+        //[Benchmark]
         public void CreateEntityWithHealthManaComponents() {
-            for (var i = 0; i < c_iteration_count; i++) {
-                var entity = m_world.CreateEntity();
+            for (var i = 0; i < Iterations; i++) {
+                var entity = m_world.Entity();
                 entity.Set<Health>();
                 entity.Set<Mana>();
             }
@@ -63,14 +53,14 @@ namespace DanonEcsBenchmarks {
 
         //[Benchmark]
         public void AllocEntities() {
-            for (var i = 0; i < c_iteration_count; i++)
-                m_world.CreateEntity();
+            for (var i = 0; i < Iterations; i++)
+                m_world.Entity();
         }
 
         //[Benchmark]
         public void BasicComponentOperations() {
-            for (var i = 0; i < c_iteration_count; i++) {
-                var entity = m_world.CreateEntity();
+            for (var i = 0; i < Iterations; i++) {
+                var entity = m_world.Entity();
                 entity.Set<ExampleComponent>();
                 if (entity.Has<ExampleComponent>())
                     entity.Remove<ExampleComponent>();
@@ -79,16 +69,16 @@ namespace DanonEcsBenchmarks {
 
         //[Benchmark]
         public void AllocAndDestroyEntities() {
-            for (var i = 0; i < c_iteration_count; i++) {
-                var entity = m_world.CreateEntity();
+            for (var i = 0; i < Iterations; i++) {
+                var entity = m_world.Entity();
                 entity.Destroy();
             }
         }
 
         //[Benchmark]
         public void AllocAndSetDataAndDestroyEntities() {
-            for (var i = 0; i < c_iteration_count; i++) {
-                var entity = m_world.CreateEntity();
+            for (var i = 0; i < Iterations; i++) {
+                var entity = m_world.Entity();
                 entity.Set<ExampleComponent>();
                 entity.Destroy();
             }
@@ -109,6 +99,7 @@ namespace DanonEcsBenchmarks {
 
     internal static class Benchmarks {
         public static void Main(string[] args) {
+            //BenchmarkSwitcher.FromAssembly(typeof(Benchmarks).Assembly).Run(args, new DebugInProcessConfig());
             BenchmarkRunner.Run<EcsBenchmarks>();
         }
     }

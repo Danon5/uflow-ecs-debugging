@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using UFlow.Addon.Ecs.Core.Runtime;
 
 namespace DanonEcsTests {
@@ -8,24 +9,25 @@ namespace DanonEcsTests {
 
         [SetUp]
         public void SetUp() {
-            m_world = World.Create();
+            m_world = new World();
         }
 
         [TearDown]
         public void TearDown() {
             m_world.Destroy();
+            ExternalEngineEvents.clearStaticCachesEvent?.Invoke();
         }
 
         [Test]
         public void AddComponentTest() {
-            var entity = m_world.CreateEntity();
+            var entity = m_world.Entity();
             entity.Set<ExampleComponent>();
             Assert.That(entity.Has<ExampleComponent>());
         }
 
         [Test]
         public void SetComponentDataTest() {
-            var entity = m_world.CreateEntity();
+            var entity = m_world.Entity();
             entity.Set(new ExampleComponent {
                 someData = 5
             });
@@ -34,7 +36,7 @@ namespace DanonEcsTests {
 
         [Test]
         public void RemoveComponentTest() {
-            var entity = m_world.CreateEntity();
+            var entity = m_world.Entity();
             entity.Set<ExampleComponent>();
             entity.Remove<ExampleComponent>();
             Assert.That(entity.Has<ExampleComponent>(), Is.False);
@@ -42,15 +44,15 @@ namespace DanonEcsTests {
 
         [Test]
         public void BasicMultiWorldTest() {
-            var world1 = World.Create();
-            var world2 = World.Create();
+            var world1 = new World();
+            var world2 = new World();
 
-            var entity1 = world1.CreateEntity();
+            var entity1 = world1.Entity();
             Assert.That(entity1.Has<ExampleComponent>(), Is.False);
             entity1.Set<ExampleComponent>();
             Assert.That(entity1.Has<ExampleComponent>(), Is.True);
 
-            var entity2 = world2.CreateEntity();
+            var entity2 = world2.Entity();
             Assert.That(entity2.Has<ExampleComponent>(), Is.False);
             entity2.Set<ExampleComponent>();
             Assert.That(entity2.Has<ExampleComponent>(), Is.True);
@@ -62,34 +64,34 @@ namespace DanonEcsTests {
         [Test]
         public void ManyEntitiesTest() {
             for (var i = 0; i < 10000; i++)
-                m_world.CreateEntity();
+                m_world.Entity();
         }
 
         [Test]
         public void DestroyEntitiesTest() {
             for (var i = 0; i < 5; i++) {
-                var entity = m_world.CreateEntity();
+                var entity = m_world.Entity();
                 entity.Set<ExampleComponent>();
                 entity.Destroy();
             }
 
             for (var i = 0; i < 5; i++) {
-                var entity = m_world.CreateEntity();
+                var entity = m_world.Entity();
                 Assert.That(entity.Has<ExampleComponent>(), Is.False);
             }
 
             for (var i = 0; i < 5; i++) {
-                var entity = m_world.CreateEntity();
+                var entity = m_world.Entity();
                 entity.Set<ExampleComponent>();
             }
         }
 
         [Test]
         public void DestroyWorldTest() {
-            var world = World.Create();
+            var world = new World();
 
             for (var i = 0; i < 5; i++) {
-                var entity = world.CreateEntity();
+                var entity = world.Entity();
                 entity.Set<ExampleComponent>();
             }
 
@@ -99,12 +101,12 @@ namespace DanonEcsTests {
         [Test]
         public void EntityIsValidTest()
         {
-            var entity = m_world.CreateEntity();
+            var entity = m_world.Entity();
             Assert.That(entity.IsAlive(), Is.True);
             entity.Destroy();
             Assert.That(entity.IsAlive(), Is.False);
             
-            var entity2 = m_world.CreateEntity();
+            var entity2 = m_world.Entity();
             Assert.Multiple(() =>
             {
                 Assert.That(entity.IsAlive(), Is.False);
@@ -117,34 +119,61 @@ namespace DanonEcsTests {
 
         [Test]
         public void WorldIsValidTest() {
-            var world = World.Create();
+            var world = new World();
             Assert.That(world.IsAlive(), Is.True);
             world.Destroy();
             Assert.That(world.IsAlive(), Is.False);
         }
 
+        private DynamicEntitySet m_query2;
+        
         [Test]
-        public void QueryTest() {
-            var entity1 = m_world.CreateEntity();
+        public void MultipleQueryTest() {
+            var entity1 = m_world.Entity();
             entity1.Set(new ExampleComponent());
-            var query1 = m_world.CreateQuery().With<ExampleComponent>().AsSet();
+            var query1 = m_world.Query().With<ExampleComponent>().AsSet();
             Assert.That(query1.EntityCount, Is.EqualTo(1));
             
-            var entity2 = m_world.CreateEntity();
+            var entity2 = m_world.Entity();
+            entity2.Set(new OtherComponent());
             entity2.Set(new ExampleComponent());
             Assert.That(query1.EntityCount, Is.EqualTo(2));
+            
+            query1.Dispose();
 
-            var query2 = m_world.CreateQuery().With<OtherComponent>().Without<ExampleComponent>().AsSet();
-            Assert.That(query2.EntityCount, Is.EqualTo(0));
+            m_query2 = m_world.Query().With<OtherComponent>().Without<ExampleComponent>().AsSet();
+            Assert.That(m_query2.EntityCount, Is.EqualTo(0));
 
-            var entity3 = m_world.CreateEntity();
+            var entity3 = m_world.Entity();
             entity3.Set(new OtherComponent());
             entity3.Set(new ExampleComponent());
-            Assert.That(query2.EntityCount, Is.EqualTo(0));
+            Assert.That(m_query2.EntityCount, Is.EqualTo(0));
             
-            var entity4 = m_world.CreateEntity();
+            var entity4 = m_world.Entity();
             entity4.Set(new OtherComponent());
-            Assert.That(query2.EntityCount, Is.EqualTo(1));
+            Assert.That(m_query2.EntityCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void StandardUseCaseTest() {
+            for (var i = 0; i < 1; i++) {
+                var world1 = new World();
+                var query = world1.Query().With<ExampleComponent>().With<OtherComponent>().AsSet();
+            
+                for (var j = 1; j <= 10; j++) {
+                    var entity = world1.Entity();
+                    entity.Set<ExampleComponent>();
+                    if (j % 3 == 0)
+                        entity.Set<OtherComponent>();
+                }
+
+                foreach (var entity in query) {
+                    ref var example = ref entity.Get<ExampleComponent>();
+                    ref var other = ref entity.Get<OtherComponent>();
+                }
+            
+                world1.Destroy();
+            }
         }
 
         private struct ExampleComponent {
