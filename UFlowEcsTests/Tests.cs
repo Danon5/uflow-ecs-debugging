@@ -195,6 +195,34 @@ namespace DanonEcsTests {
             }
         }
 
+        [Test]
+        public void EntityEnumerationCountTest() {
+            var firstEntity = m_world.Entity();
+            firstEntity.Set(new ExampleComponent());
+            for (var i = 2; i <= 9; i++) {
+                m_world.Entity().Set(new ExampleComponent());
+            }
+
+            var lastEntity = m_world.Entity();
+            lastEntity.Set(new ExampleComponent());
+            var query = m_world.Query().With<ExampleComponent>().AsSet();
+            var count = 0;
+            foreach (var entity in query) {
+                count++;
+                switch (count) {
+                    case 1:
+                        Assert.That(entity, Is.EqualTo(firstEntity));
+                        break;
+                    case 10:
+                        Assert.That(entity, Is.EqualTo(lastEntity));
+                        break;
+                }
+            }
+            
+            Assert.That(count, Is.EqualTo(10));
+            
+        }
+
         private struct ExampleComponent {
             public int someData;
         }
