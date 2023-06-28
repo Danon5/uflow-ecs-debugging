@@ -153,6 +153,25 @@ namespace DanonEcsTests {
             entity4.Set(new OtherComponent());
             Assert.That(m_query2.EntityCount, Is.EqualTo(1));
         }
+        
+        [Test]
+        public void DestroyQueryTest() {
+            var entity1 = m_world.Entity();
+            entity1.Set(new ExampleComponent());
+            var query1 = m_world.Query().With<ExampleComponent>().AsSet();
+            Assert.That(query1.EntityCount, Is.EqualTo(1));
+            
+            entity1.Destroy();
+            Assert.That(query1.EntityCount, Is.EqualTo(0));
+            
+            var entity2 = m_world.Entity();
+            entity2.Set(new OtherComponent());
+            var query2 = m_world.Query().WithEither<ExampleComponent>().Or<OtherComponent>().AsSet();
+            Assert.That(query2.EntityCount, Is.EqualTo(1));
+            
+            entity2.Destroy();
+            Assert.That(query2.EntityCount, Is.EqualTo(0));
+        }
 
         [Test]
         public void StandardUseCaseTest() {
