@@ -4,6 +4,11 @@ using UFlow.Addon.Ecs.Core.Runtime;
 namespace DanonEcsTests {
     [TestFixture]
     public class WorldTests {
+        [TearDown]
+        public void TearDown() {
+            ExternalEngineEvents.clearStaticCachesEvent?.Invoke();
+        }
+        
         [Test]
         public void CreateAndDestroy_Single() {
             var world = new World();
@@ -71,6 +76,51 @@ namespace DanonEcsTests {
             query2.Dispose();
             world.Destroy();
             Assert.Pass();
+        }
+
+        [Test]
+        public void Set() {
+            var world = new World();
+            world.Set(new TestComp1());
+            world.Destroy();
+        }
+
+        [Test]
+        public void Set_Has() {
+            var world = new World();
+            Assert.That(world.Has<TestComp1>(), Is.EqualTo(false));
+            world.Set(new TestComp1());
+            Assert.That(world.Has<TestComp1>(), Is.EqualTo(true));
+            world.Destroy();
+        }
+        
+        [Test]
+        public void Set_Get() {
+            var world = new World();
+            world.Set(new TestComp1 {
+                someData = 3
+            });
+            Assert.That(world.Get<TestComp1>().someData, Is.EqualTo(3));
+            world.Destroy();
+        }
+        
+        [Test]
+        public void Set_Remove() {
+            var world = new World();
+            world.Set(new TestComp1());
+            world.Remove<TestComp1>();
+            world.Destroy();
+        }
+        
+        [Test]
+        public void Set_Remove_Has() {
+            var world = new World();
+            Assert.That(world.Has<TestComp1>(), Is.EqualTo(false));
+            world.Set(new TestComp1());
+            Assert.That(world.Has<TestComp1>(), Is.EqualTo(true));
+            world.Remove<TestComp1>();
+            Assert.That(world.Has<TestComp1>(), Is.EqualTo(false));
+            world.Destroy();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace DanonEcsTests {
         }
         
         [Test]
-        public void Set_AndHas_Empty_Single()
+        public void Set_Has_Empty_Single()
         {
             m_sparseSet.Set(1, 1);
             Assert.Multiple(() =>
@@ -54,7 +54,7 @@ namespace DanonEcsTests {
         }
 
         [Test]
-        public void Set_AndHas_Empty_Multiple()
+        public void Set_Has_Empty_Multiple()
         {
             m_sparseSet.Set(1, 1);
             Assert.That(m_sparseSet.Has(1), Is.EqualTo(true));
