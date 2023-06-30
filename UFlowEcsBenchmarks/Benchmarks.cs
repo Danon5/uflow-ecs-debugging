@@ -15,9 +15,9 @@ namespace DanonEcsBenchmarks {
         public void IterationSetup() {
             ExternalEngineEvents.clearStaticCachesEvent?.Invoke();
             m_world = new World();
-            m_query = m_world.Query().With<Health>().With<Mana>().AsSet();
+            m_query = m_world.BuildQuery().With<Health>().With<Mana>().AsSet();
             for (var i = 1; i <= Iterations; i++) {
-                var entity = m_world.Entity();
+                var entity = m_world.CreateEntity();
                 entity.Set<Health>();
                 if (i % 3 == 0)
                     entity.Set<Mana>();
@@ -39,13 +39,13 @@ namespace DanonEcsBenchmarks {
 
         //[Benchmark]
         public void CreateQuery() {
-            var query = m_world.Query().With<Health>().AsSet();
+            var query = m_world.BuildQuery().With<Health>().AsSet();
         }
 
         //[Benchmark]
         public void CreateEntityWithHealthManaComponents() {
             for (var i = 0; i < Iterations; i++) {
-                var entity = m_world.Entity();
+                var entity = m_world.CreateEntity();
                 entity.Set<Health>();
                 entity.Set<Mana>();
             }
@@ -54,13 +54,13 @@ namespace DanonEcsBenchmarks {
         //[Benchmark]
         public void AllocEntities() {
             for (var i = 0; i < Iterations; i++)
-                m_world.Entity();
+                m_world.CreateEntity();
         }
 
         //[Benchmark]
         public void BasicComponentOperations() {
             for (var i = 0; i < Iterations; i++) {
-                var entity = m_world.Entity();
+                var entity = m_world.CreateEntity();
                 entity.Set<ExampleComponent>();
                 if (entity.Has<ExampleComponent>())
                     entity.Remove<ExampleComponent>();
@@ -70,7 +70,7 @@ namespace DanonEcsBenchmarks {
         //[Benchmark]
         public void AllocAndDestroyEntities() {
             for (var i = 0; i < Iterations; i++) {
-                var entity = m_world.Entity();
+                var entity = m_world.CreateEntity();
                 entity.Destroy();
             }
         }
@@ -78,7 +78,7 @@ namespace DanonEcsBenchmarks {
         //[Benchmark]
         public void AllocAndSetDataAndDestroyEntities() {
             for (var i = 0; i < Iterations; i++) {
-                var entity = m_world.Entity();
+                var entity = m_world.CreateEntity();
                 entity.Set<ExampleComponent>();
                 entity.Destroy();
             }

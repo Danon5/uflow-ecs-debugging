@@ -19,21 +19,21 @@ namespace DanonEcsTests {
 
         [Test]
         public void Create_Single() {
-            m_world.Entity();
+            m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1));
         }
         
         [Test]
         public void Create_Many() {
             for (var i = 0; i < 1000; i++)
-                m_world.Entity();
+                m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1000));
         }
         
         [Test]
         public void CreateAndDestroy_Single()
         {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1));
             entity.Destroy();
             Assert.That(m_world.EntityCount, Is.EqualTo(0));
@@ -42,7 +42,7 @@ namespace DanonEcsTests {
         [Test]
         public void CreateAndDestroy_Single_AndIsAlive()
         {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1));
             entity.Destroy();
             Assert.Multiple(() =>
@@ -56,7 +56,7 @@ namespace DanonEcsTests {
         public void CreateAndDestroy_Many() {
             var entities = new Entity[1000];
             for (var i = 0; i < 1000; i++)
-                entities[i] = m_world.Entity();
+                entities[i] = m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1000));
             for (var i = 0; i < 1000; i++)
                 entities[i].Destroy();
@@ -67,7 +67,7 @@ namespace DanonEcsTests {
         public void CreateAndDestroy_Many_AndIsAlive() {
             var entities = new Entity[1000];
             for (var i = 0; i < 1000; i++)
-                entities[i] = m_world.Entity();
+                entities[i] = m_world.CreateEntity();
             Assert.That(m_world.EntityCount, Is.EqualTo(1000));
             for (var i = 0; i < 1000; i++) {
                 entities[i].Destroy();
@@ -78,7 +78,7 @@ namespace DanonEcsTests {
 
         [Test]
         public void Set_SingleComponent() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             Assert.Pass();
@@ -86,7 +86,7 @@ namespace DanonEcsTests {
 
         [Test]
         public void Set_SingleComponent_AndHas() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             Assert.That(entity.Has<TestComp1>(), Is.EqualTo(true));
@@ -95,7 +95,7 @@ namespace DanonEcsTests {
         [Test]
         public void Set_MultipleComponents()
         {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             entity.Set(new TestComp2());
@@ -105,7 +105,7 @@ namespace DanonEcsTests {
         [Test]
         public void Set_MultipleComponents_AndHas()
         {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             entity.Set(new TestComp2());
@@ -118,7 +118,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void Get_SingleComponent() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1 {
                 someData = 1
@@ -132,7 +132,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void Get_MultipleComponents() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1 {
                 someData = 1
@@ -154,7 +154,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void SetAndRemove_SingleComponent() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             entity.Remove<TestComp1>();
@@ -163,7 +163,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void SetAndRemove_SingleComponent_AndHas() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             Assert.That(entity.Has<TestComp1>(), Is.EqualTo(true));
@@ -173,7 +173,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void SetAndRemove_MultipleComponents() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             entity.Remove<TestComp1>();
@@ -184,7 +184,7 @@ namespace DanonEcsTests {
         
         [Test]
         public void SetAndRemove_MultipleComponents_AndHas() {
-            var entity = m_world.Entity();
+            var entity = m_world.CreateEntity();
             
             entity.Set(new TestComp1());
             Assert.That(entity.Has<TestComp1>(), Is.EqualTo(true));

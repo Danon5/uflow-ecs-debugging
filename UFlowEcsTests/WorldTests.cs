@@ -27,7 +27,7 @@ namespace DanonEcsTests {
             var world = new World();
 
             for (var i = 0; i < 5; i++)
-                world.Entity();
+                world.CreateEntity();
 
             world.Destroy();
             Assert.Pass();
@@ -38,7 +38,7 @@ namespace DanonEcsTests {
             var world = new World();
 
             for (var i = 0; i < 5; i++)
-                world.Entity().Set(new TestComp1());
+                world.CreateEntity().Set(new TestComp1());
 
             world.Destroy();
             Assert.Pass();
@@ -58,14 +58,14 @@ namespace DanonEcsTests {
         [Test]
         public void CreateAndDestroy_WithQueries() {
             var world = new World();
-            var query1 = world.Query().With<TestComp1>().AsSet();
-            var query2 = world.Query().With<TestComp2>().AsSet();
+            var query1 = world.BuildQuery().With<TestComp1>().AsSet();
+            var query2 = world.BuildQuery().With<TestComp2>().AsSet();
 
             for (var i = 0; i < 5; i++)
-                world.Entity().Set(new TestComp1());
+                world.CreateEntity().Set(new TestComp1());
             
             for (var i = 0; i < 5; i++)
-                world.Entity().Set(new TestComp2());
+                world.CreateEntity().Set(new TestComp2());
             
             query1.Dispose();
             query2.Dispose();
