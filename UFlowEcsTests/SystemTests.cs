@@ -8,7 +8,7 @@ namespace DanonEcsTests {
         
         [SetUp]
         public void SetUp() {
-            m_world = EcsUtils.Worlds.CreateWorldFromType<DefaultWorldType>();
+            m_world = EcsUtils.Worlds.CreateWorldFromType<DefaultWorld>();
         }
 
         [TearDown]
@@ -22,16 +22,16 @@ namespace DanonEcsTests {
         {
             Assert.Multiple(() =>
             {
-                Assert.That(m_world.GetOrCreateSystemGroup<SimulationSystemGroup>().Has<MySystem1>());
-                Assert.That(m_world.GetOrCreateSystemGroup<SimulationSystemGroup>().Has<MySystem2>());
-                Assert.That(m_world.GetOrCreateSystemGroup<SimulationSystemGroup>().Has<MySystem3>());
+                Assert.That(m_world.GetOrCreateSystemGroup<FrameSimulationSystemGroup>().Has<MySystem1>());
+                Assert.That(m_world.GetOrCreateSystemGroup<FrameSimulationSystemGroup>().Has<MySystem2>());
+                Assert.That(m_world.GetOrCreateSystemGroup<FrameSimulationSystemGroup>().Has<MySystem3>());
             });
         }
 
         [Test]
         public void CorrectOrder() {
             var count = 0;
-            foreach (var system in m_world.GetOrCreateSystemGroup<SimulationSystemGroup>()) {
+            foreach (var system in m_world.GetOrCreateSystemGroup<FrameSimulationSystemGroup>()) {
                 var type = count switch {
                     0 => typeof(MySystem1),
                     1 => typeof(MySystem3),
@@ -43,22 +43,22 @@ namespace DanonEcsTests {
             }
         }
 
-        [ExecuteInWorld(typeof(DefaultWorldType))]
-        [ExecuteInGroup(typeof(SimulationSystemGroup))]
+        [ExecuteInWorld(typeof(DefaultWorld))]
+        [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
         [ExecuteBefore(typeof(MySystem2))]
         private sealed class MySystem1 : BaseRunSystem {
             public MySystem1(in World world) : base(in world) { }
         }
         
-        [ExecuteInWorld(typeof(DefaultWorldType))]
-        [ExecuteInGroup(typeof(SimulationSystemGroup))]
+        [ExecuteInWorld(typeof(DefaultWorld))]
+        [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
         [ExecuteAfter(typeof(MySystem3))]
         private sealed class MySystem2 : BaseRunSystem {
             public MySystem2(in World world) : base(in world) { }
         }
         
-        [ExecuteInWorld(typeof(DefaultWorldType))]
-        [ExecuteInGroup(typeof(SimulationSystemGroup))]
+        [ExecuteInWorld(typeof(DefaultWorld))]
+        [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
         private sealed class MySystem3 : BaseRunSystem {
             public MySystem3(in World world) : base(in world) { }
         }

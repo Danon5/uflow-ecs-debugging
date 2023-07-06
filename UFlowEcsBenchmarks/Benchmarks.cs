@@ -84,15 +84,15 @@ namespace DanonEcsBenchmarks {
             }
         }
 
-        private struct ExampleComponent {
+        private struct ExampleComponent : IEcsComponent {
             public byte someData;
         }
 
-        private struct Health {
+        private struct Health : IEcsComponent {
             public byte someData;
         }
 
-        private struct Mana {
+        private struct Mana : IEcsComponent {
             public byte someData;
         }
     }
