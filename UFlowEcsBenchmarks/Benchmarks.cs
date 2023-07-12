@@ -1,35 +1,42 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using UFlow.Addon.Ecs.Core.Runtime;
 
 namespace DanonEcsBenchmarks {
     [MemoryDiagnoser]
-    [SimpleJob(iterationCount: 25, invocationCount: 5000)]
+    [SimpleJob(iterationCount: 10, invocationCount: 500)]
     public class EcsBenchmarks {
-        [Params(128, 256, 512, 1024, 2048, 4096, 8192)]
+        //[Params(128, 256, 512, 1024, 2048, 4096, 8192)]
+        //[Params(128, 256, 512, 1024)]
         public int Iterations;
         private World m_world;
         private DynamicEntitySet m_query;
+        private ByteBuffer m_buffer;
+        private Entity m_entity;
 
         [IterationSetup]
         public void IterationSetup() {
             ExternalEngineEvents.clearStaticCachesEvent?.Invoke();
             m_world = new World();
-            m_query = m_world.BuildQuery().With<Health>().With<Mana>().AsSet();
-            for (var i = 1; i <= Iterations; i++) {
-                var entity = m_world.CreateEntity();
-                entity.Set<Health>();
-                if (i % 3 == 0)
-                    entity.Set<Mana>();
-            }
+            m_buffer = new ByteBuffer(10000);
+            m_entity = m_world.CreateEntity();
+            m_entity.Set(new ExampleComponent());
         }
 
         [IterationCleanup]
         public void IterationCleanup() {
             m_world.Destroy();
         }
-        
+
         [Benchmark]
+        public void SerializeEntity() {
+            for (var i = 0; i < 1; i++)
+                EcsSerializer.SerializeEntity<SaveMemberAttribute>(m_buffer, m_entity);
+            m_buffer.Complete();
+        }
+        
+        //[Benchmark]
         public void IterateHealthManaQuery() {
             foreach (var entity in m_query) {
                 ref var health = ref entity.Get<Health>();
@@ -84,8 +91,9 @@ namespace DanonEcsBenchmarks {
             }
         }
 
+        [SaveState]
         private struct ExampleComponent : IEcsComponent {
-            public byte someData;
+            [SaveMember] public byte someData;
         }
 
         private struct Health : IEcsComponent {
